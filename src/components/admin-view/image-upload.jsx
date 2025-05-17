@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { Button } from "../ui/button";
 import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 function ProductImageUpload({
   imageFile,
@@ -23,7 +24,7 @@ function ProductImageUpload({
   function handleImageFileChange(event) {
     console.log(event.target.files, "event.target.files");
     const selectedFile = event.target.files?.[0];
-    console.log(selectedFile);
+    // console.log(selectedFile);
 
     if (selectedFile) setImageFile(selectedFile);
   }
@@ -50,7 +51,7 @@ function ProductImageUpload({
     const data = new FormData();
     data.append("my_file", imageFile);
     const response = await axios.post(
-      "http://localhost:5000/api/admin/products/upload-image",
+      `${baseURL}api/admin/products/upload-image`,
       data
     );
     console.log(response, "response");
