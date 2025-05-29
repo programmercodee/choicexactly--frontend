@@ -317,7 +317,7 @@ function ShoppingCheckout() {
 
     try {
       const res = await fetch(
-        `${baseURL}/api/shop/order/create-razorpay-order`,
+        `${baseURL}api/shop/order/create-razorpay-order`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -355,7 +355,7 @@ function ShoppingCheckout() {
           };
 
           // dispatch(createNewOrder(paidOrderData));
-          fetch(`${baseURL}/api/shop/order/capture-razorpay-payment`, {
+          fetch(`${baseURL}api/shop/order/capture-razorpay-payment`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
