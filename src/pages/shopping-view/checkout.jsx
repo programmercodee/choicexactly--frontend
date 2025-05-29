@@ -185,7 +185,7 @@ const styles = `
     animation-fill-mode: both;
   }
 `;
-
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 function ShoppingCheckout() {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
@@ -317,7 +317,7 @@ function ShoppingCheckout() {
 
     try {
       const res = await fetch(
-        "http://localhost:5000/api/shop/order/create-razorpay-order",
+        `${baseURL}/api/shop/order/create-razorpay-order`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -355,7 +355,7 @@ function ShoppingCheckout() {
           };
 
           // dispatch(createNewOrder(paidOrderData));
-          fetch("http://localhost:5000/api/shop/order/capture-razorpay-payment", {
+          fetch(`${baseURL}/api/shop/order/capture-razorpay-payment`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
