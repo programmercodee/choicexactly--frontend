@@ -2,12 +2,23 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
+// const initialState = {
+//   approvalURL: null,
+//   isLoading: false,
+//   orderId: null,
+//   orderList: [],
+//   orderDetails: null,
+// };
+
 const initialState = {
-  approvalURL: null,
+  approvalURL: null, // PayPal approval URL
+  razorpayOrderData: null, // Razorpay order info (orderId, key, amount)
   isLoading: false,
   orderId: null,
   orderList: [],
   orderDetails: null,
+  paymentSuccess: false,
+  paymentError: null,
 };
 
 export const createNewOrder = createAsyncThunk(
@@ -37,6 +48,19 @@ export const capturePayment = createAsyncThunk(
     return response.data;
   }
 );
+// new thunk for capturing Razorpay payment after success
+export const captureRazorpayPayment = createAsyncThunk(
+  "/order/captureRazorpayPayment",
+  async ({ paymentId, payerId, orderId }) => {
+    const response = await axios.post(`${baseURL}api/shop/order/capture`, {
+      paymentId,
+      payerId,
+      orderId,
+    });
+    return response.data;
+  }
+);
+
 
 export const getAllOrdersByUserId = createAsyncThunk(
   "/order/getAllOrdersByUserId",
@@ -60,14 +84,31 @@ export const getOrderDetails = createAsyncThunk(
   }
 );
 
+// new thunk for Razorpay order creation (gets razorpayOrderId and key)
+export const createRazorpayOrder = createAsyncThunk(
+  "/order/createRazorpayOrder",
+  async (orderData) => {
+    const response = await axios.post(`${baseURL}api/shop/order/create-razorpay`, orderData);
+    return response.data; // should contain razorpayOrderId, key, amount, etc.
+  }
+);
+
+
+
+
+
 const shoppingOrderSlice = createSlice({
-  name: "shoppingOrderSlice",
+  name: "shopOrder",
   initialState,
   reducers: {
     resetOrderDetails: (state) => {
       state.orderDetails = null;
     },
+    resetApprovalURL: (state) => {
+      state.approvalURL = null;
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(createNewOrder.pending, (state) => {
@@ -108,10 +149,39 @@ const shoppingOrderSlice = createSlice({
       .addCase(getOrderDetails.rejected, (state) => {
         state.isLoading = false;
         state.orderDetails = null;
+      })
+      // Razorpay order creation
+      .addCase(createRazorpayOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createRazorpayOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.razorpayOrderData = action.payload; // store orderId, key, amount, etc.
+      })
+      .addCase(createRazorpayOrder.rejected, (state) => {
+        state.isLoading = false;
+        state.razorpayOrderData = null;
+      })
+
+      // Razorpay payment capture
+      .addCase(captureRazorpayPayment.pending, (state) => {
+        state.isLoading = true;
+        state.paymentSuccess = false;
+        state.paymentError = null;
+      })
+      .addCase(captureRazorpayPayment.fulfilled, (state) => {
+        state.isLoading = false;
+        state.paymentSuccess = true;
+        state.razorpayOrderData = null;
+      })
+      .addCase(captureRazorpayPayment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.paymentSuccess = false;
+        state.paymentError = action.error.message || "Razorpay payment capture failed";
       });
+
   },
 });
 
-export const { resetOrderDetails } = shoppingOrderSlice.actions;
-
+export const { resetOrderDetails, resetApprovalURL } = shoppingOrderSlice.actions;
 export default shoppingOrderSlice.reducer;

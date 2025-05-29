@@ -17,12 +17,13 @@ const initialFormData = {
 };
 
 function AdminOrderDetailsView({ orderDetails }) {
+
   const [formData, setFormData] = useState(initialFormData);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { toast } = useToast();
-
-  console.log(orderDetails, "orderDetailsorderDetails");
+  console.log(user, "user");
+  // console.log(orderDetails, "orderDetailsorderDetails");
 
   function handleUpdateStatus(event) {
     event.preventDefault();
@@ -43,7 +44,7 @@ function AdminOrderDetailsView({ orderDetails }) {
   }
 
   return (
-    <DialogContent className="sm:max-w-[600px]">
+    <DialogContent className="sm:max-w-[600px] h-[600px] overflow-y-auto">
       <div className="grid gap-6">
         <div className="grid gap-2">
           <div className="flex mt-6 items-center justify-between">
@@ -56,7 +57,7 @@ function AdminOrderDetailsView({ orderDetails }) {
           </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Price</p>
-            <Label>${orderDetails?.totalAmount}</Label>
+            <Label>₹{orderDetails?.totalAmount}</Label>
           </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Payment method</p>
@@ -83,6 +84,7 @@ function AdminOrderDetailsView({ orderDetails }) {
             </Label>
           </div>
         </div>
+        {console.log(orderDetails)}
         <Separator />
         <div className="grid gap-4">
           <div className="grid gap-2">
@@ -93,7 +95,7 @@ function AdminOrderDetailsView({ orderDetails }) {
                     <li className="flex items-center justify-between">
                       <span>Title: {item.title}</span>
                       <span>Quantity: {item.quantity}</span>
-                      <span>Price: ${item.price}</span>
+                      <span>Price: ₹{item.price}</span>
                     </li>
                   ))
                 : null}
@@ -104,12 +106,12 @@ function AdminOrderDetailsView({ orderDetails }) {
           <div className="grid gap-2">
             <div className="font-medium">Shipping Info</div>
             <div className="grid gap-0.5 text-muted-foreground">
-              <span>{user.userName}</span>
-              <span>{orderDetails?.addressInfo?.address}</span>
-              <span>{orderDetails?.addressInfo?.city}</span>
-              <span>{orderDetails?.addressInfo?.pincode}</span>
-              <span>{orderDetails?.addressInfo?.phone}</span>
-              <span>{orderDetails?.addressInfo?.notes}</span>
+              <span>User Name: <span className="font-medium">{user.userName}</span></span>
+              <span>Address: {orderDetails?.addressInfo?.address}</span>
+              <span>City: {orderDetails?.addressInfo?.city}</span>
+              <span>Pincode: {orderDetails?.addressInfo?.pincode}</span>
+              <span>Phone: {orderDetails?.addressInfo?.phone}</span>
+              <span>Notes: {orderDetails?.addressInfo?.notes}</span>
             </div>
           </div>
         </div>

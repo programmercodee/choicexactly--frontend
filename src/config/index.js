@@ -65,19 +65,19 @@ export const addProductFormElements = [
       { id: "printed", label: "Printed" },
     ],
   },
-  {
-    label: "Brand",
-    name: "brand",
-    componentType: "select",
-    options: [
-      { id: "nike", label: "Nike" },
-      { id: "adidas", label: "Adidas" },
-      { id: "puma", label: "Puma" },
-      { id: "levi", label: "Levi's" },
-      { id: "zara", label: "Zara" },
-      { id: "h&m", label: "H&M" },
-    ],
-  },
+  // {
+  //   label: "Brand",
+  //   name: "brand",
+  //   componentType: "select",
+  //   options: [
+  //     { id: "nike", label: "Nike" },
+  //     { id: "adidas", label: "Adidas" },
+  //     { id: "puma", label: "Puma" },
+  //     { id: "levi", label: "Levi's" },
+  //     { id: "zara", label: "Zara" },
+  //     { id: "h&m", label: "H&M" },
+  //   ],
+  // },
   {
     label: "Price",
     name: "price",
@@ -144,6 +144,31 @@ export const shoppingViewHeaderMenuItems = [
   },
 ];
 
+export const shoppingViewHeaderMenuItems2 = [
+  {
+    id: "specialprices",
+    label: "Special prices",
+    path: "/shop/home",
+  },
+  {
+    id: "ordertrack",
+    label: "Track Your Order",
+    path: "/shop/account",
+  },
+  {
+    id: "contectus",
+    label: "Contect Us",
+    path: "/shop/contectus",
+  },
+  {
+    id: "aboutus",
+    label: "About Us",
+    path: "/shop/aboutus",
+  },
+ 
+];
+
+
 export const categoryOptionsMap = {
   men: "Men",
   women: "Women",
@@ -152,14 +177,14 @@ export const categoryOptionsMap = {
   footwear: "Footwear",
 };
 
-export const brandOptionsMap = {
-  nike: "Nike",
-  adidas: "Adidas",
-  puma: "Puma",
-  levi: "Levi",
-  zara: "Zara",
-  "h&m": "H&M",
-};
+// export const brandOptionsMap = {
+//   nike: "Nike",
+//   adidas: "Adidas",
+//   puma: "Puma",
+//   levi: "Levi",
+//   zara: "Zara",
+//   "h&m": "H&M",
+// };
 
 export const filterOptions = {
   category: [
@@ -169,14 +194,14 @@ export const filterOptions = {
     { id: "plain", label: "Plain" },
     { id: "printed", label: "Printed" },
   ],
-  brand: [
-    { id: "nike", label: "Nike" },
-    { id: "adidas", label: "Adidas" },
-    { id: "puma", label: "Puma" },
-    { id: "levi", label: "Levi's" },
-    { id: "zara", label: "Zara" },
-    { id: "h&m", label: "H&M" },
-  ],
+  // brand: [
+  //   { id: "nike", label: "Nike" },
+  //   { id: "adidas", label: "Adidas" },
+  //   { id: "puma", label: "Puma" },
+  //   { id: "levi", label: "Levi's" },
+  //   { id: "zara", label: "Zara" },
+  //   { id: "h&m", label: "H&M" },
+  // ],
 };
 
 export const sortOptions = [
