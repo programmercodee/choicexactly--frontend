@@ -290,12 +290,15 @@ function ShoppingCheckout() {
     const orderData = {
       userId: user?.id,
       cartId: cartItems?._id,
-      cartItems: cartItems.items.map((item) => ({
+      cartItems: cartItems.items.map((item) => (
+        // console.log(item,"order item"),
+        {
         productId: item?.productId,
         title: item?.title,
         image: item?.image,
         price: item?.salePrice > 0 ? item?.salePrice : item?.price,
         quantity: item?.quantity,
+        size: item?.availableSizes,
       })),
       addressInfo: {
         addressId: currentSelectedAddress?._id,
@@ -438,7 +441,7 @@ function ShoppingCheckout() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <Button
+              {/* <Button
                 onClick={handleInitiatePaypalPayment}
                 disabled={isPaymentStart}
                 className={`payment-button paypal ${isPaymentStart ? 'loading' : ''}`}
@@ -465,7 +468,7 @@ function ShoppingCheckout() {
                 ) : (
                   "Checkout with PayPal"
                 )}
-              </Button>
+              </Button> */}
 
               <Button
                 onClick={handleRazorpayPayment}

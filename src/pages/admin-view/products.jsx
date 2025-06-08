@@ -18,6 +18,17 @@ import {
 } from "@/store/admin/products-slice";
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+
+const AVAILABLE_SIZES = [
+  { id: "xs", label: "Extra Small (XS)" },
+  { id: "s", label: "Small (S)" },
+  { id: "m", label: "Medium (M)" },
+  { id: "l", label: "Large (L)" },
+  { id: "xl", label: "Extra Large (XL)" },
+  { id: "xxl", label: "2XL" },
+];
 
 const initialFormData = {
   image: null,
@@ -25,6 +36,7 @@ const initialFormData = {
   description: "",
   category: "",
   // brand: "",
+  availableSizes: [],
   price: "",
   salePrice: "",
   totalStock: "",
@@ -49,36 +61,36 @@ function AdminProducts() {
 
     currentEditedId !== null
       ? dispatch(
-          editProduct({
-            id: currentEditedId,
-            formData,
-          })
-        ).then((data) => {
-          console.log(data, "edit");
-
-          if (data?.payload?.success) {
-            dispatch(fetchAllProducts());
-            setFormData(initialFormData);
-            setOpenCreateProductsDialog(false);
-            setCurrentEditedId(null);
-          }
+        editProduct({
+          id: currentEditedId,
+          formData,
         })
+      ).then((data) => {
+        // console.log(data, "edit");
+
+        if (data?.payload?.success) {
+          dispatch(fetchAllProducts());
+          setFormData(initialFormData);
+          setOpenCreateProductsDialog(false);
+          setCurrentEditedId(null);
+        }
+      })
       : dispatch(
-          addNewProduct({
-            ...formData,
-            image: uploadedImageUrl,
-          })
-        ).then((data) => {
-          if (data?.payload?.success) {
-            dispatch(fetchAllProducts());
-            setOpenCreateProductsDialog(false);
-            setImageFile(null);
-            setFormData(initialFormData);
-            toast({
-              title: "Product add successfully",
-            });
-          }
-        });
+        addNewProduct({
+          ...formData,
+          image: uploadedImageUrl,
+        })
+      ).then((data) => {
+        if (data?.payload?.success) {
+          dispatch(fetchAllProducts());
+          setOpenCreateProductsDialog(false);
+          setImageFile(null);
+          setFormData(initialFormData);
+          toast({
+            title: "Product add successfully",
+          });
+        }
+      });
   }
 
   function handleDelete(getCurrentProductId) {
@@ -96,11 +108,30 @@ function AdminProducts() {
       .every((item) => item);
   }
 
+  const handleSizeChange = (sizeId) => {
+    setFormData((prev) => {
+      const currentSizes = [...prev.availableSizes];
+      if (currentSizes.includes(sizeId)) {
+        return {
+          ...prev,
+          availableSizes: currentSizes.filter((size) => size !== sizeId),
+        };
+      } else {
+        return {
+          ...prev,
+          availableSizes: [...currentSizes, sizeId],
+        };
+      }
+    });
+  };
+
+  
+
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
 
-  console.log(formData, "productList");
+  // console.log(formData, "productList");
 
   return (
     <Fragment>
@@ -112,14 +143,14 @@ function AdminProducts() {
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {productList && productList.length > 0
           ? productList.map((productItem) => (
-              <AdminProductTile
-                setFormData={setFormData}
-                setOpenCreateProductsDialog={setOpenCreateProductsDialog}
-                setCurrentEditedId={setCurrentEditedId}
-                product={productItem}
-                handleDelete={handleDelete}
-              />
-            ))
+            <AdminProductTile
+              setFormData={setFormData}
+              setOpenCreateProductsDialog={setOpenCreateProductsDialog}
+              setCurrentEditedId={setCurrentEditedId}
+              product={productItem}
+              handleDelete={handleDelete}
+            />
+          ))
           : null}
       </div>
       <Sheet
@@ -146,6 +177,27 @@ function AdminProducts() {
             isEditMode={currentEditedId !== null}
           />
           <div className="py-6">
+            <div className="mb-6">
+              <Label className="text-sm font-medium mb-3 block">Available Sizes</Label>
+              <div className="grid grid-cols-2 gap-4">
+                {AVAILABLE_SIZES.map((size) => (
+                  <div key={size.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={size.id}
+                      checked={formData.availableSizes.includes(size.id)}
+                      onCheckedChange={() => handleSizeChange(size.id)}
+                    />
+                    <Label
+                      htmlFor={size.id}
+                      className="text-sm font-normal cursor-pointer"
+                    >
+                      {size.label}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <CommonForm
               onSubmit={onSubmit}
               formData={formData}

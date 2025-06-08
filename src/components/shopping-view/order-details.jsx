@@ -278,10 +278,16 @@ function ShoppingOrderDetailsView({ orderDetails }) {
           <div className="items-container">
             {orderDetails?.cartItems && orderDetails?.cartItems.length > 0 ? (
               orderDetails?.cartItems.map((item, index) => (
-                <div key={index} className="item-card">
-                  <span className="item-title">{item.title}</span>
-                  <span className="item-quantity">Qty: {item.quantity}</span>
-                  <span className="item-price">₹{item.price}</span>
+                <div key={index} >
+                  <div>
+                    <span className="item-title"><span>Name of product : </span>{item.title}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+
+                    <span className="item-quantity">Qty: {item.quantity}</span>
+                    <span className="item-quantity">Size: {item.size}</span>
+                    <span className="item-price">₹{item.price}</span>
+                  </div>
                 </div>
               ))
             ) : (

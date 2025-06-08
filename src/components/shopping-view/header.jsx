@@ -357,7 +357,6 @@ function HeaderRightContent() {
   const handleLogout = () => {
     dispatch(logoutUser());
   };
-
   useEffect(() => {
     dispatch(fetchCartItems(user?.id));
   }, [dispatch]);

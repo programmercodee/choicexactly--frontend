@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "../ui/use-toast";
@@ -17,6 +18,8 @@ import { X } from "lucide-react";
 function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const [reviewMsg, setReviewMsg] = useState("");
   const [rating, setRating] = useState(0);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [availableSizes, setAvailableSizes] = useState([]);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
@@ -24,13 +27,39 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   const { toast } = useToast();
 
+  const sizes = [
+    { value: "xs", label: "Extra Small (XS)" },
+    { value: "s", label: "Small (S)" },
+    { value: "m", label: "Medium (M)" },
+    { value: "l", label: "Large (L)" },
+    { value: "xl", label: "Extra Large (XL)" },
+    { value: "xxl", label: "2XL" },
+  ];
+
   function handleRatingChange(getRating) {
-    console.log(getRating, "getRating");
+
 
     setRating(getRating);
   }
 
   function handleAddToCart(getCurrentProductId, getTotalStock) {
+    if (!user) {
+      toast({
+        title: "Login Required",
+        description: "Please login to add items to your cart",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!selectedSize) {
+      toast({
+        title: "Please select a size",
+        variant: "destructive",
+      });
+      return;
+    }
+
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -54,6 +83,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
         userId: user?.id,
         productId: getCurrentProductId,
         quantity: 1,
+        size: selectedSize,
       })
     ).then((data) => {
       if (data?.payload?.success) {
@@ -70,6 +100,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
     dispatch(setProductDetails());
     setRating(0);
     setReviewMsg("");
+    setSelectedSize("");
   }
 
   function handleAddReview() {
@@ -95,9 +126,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   useEffect(() => {
     if (productDetails !== null) dispatch(getReviews(productDetails?._id));
+    if (productDetails !== null) setAvailableSizes(productDetails?.availableSizes);
   }, [productDetails]);
 
-  // console.log(reviews, "reviews");
+
+    // console.log(selectedSize, "availableSizes");
 
   const averageReview =
     reviews && reviews.length > 0
@@ -105,6 +138,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
       reviews.length
       : 0;
 
+  
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
       <DialogContent className="max-w-4xl p-0 overflow-hidden bg-white rounded-lg">
@@ -123,7 +157,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh] max-h-[90vh]">
           {/* Left Column - Image Gallery */}
           <div className="relative bg-gray-50 lg:min-h-[80vh]">
-            <div className="sticky top-0 h-full">
+            <div className="sticky top-0 h-[45vh] lg:h-full">
               <div className="relative h-full flex items-center justify-center p-8">
                 <img
                   src={productDetails?.image}
@@ -250,6 +284,37 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
               </div>
             </div>
 
+            {/* Add this before the sticky Add to Cart button */}
+            <div className="px-6 lg:px-8 pb-4">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="size" className="text-sm font-medium">
+                    Select Size
+                  </Label>
+                  <Select
+                    value={selectedSize}
+                    onValueChange={setSelectedSize}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Choose a size" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableSizes.map((size) => (
+
+                        <SelectItem
+                          key={size.value}
+                          value={size}
+                          className="cursor-pointer hover:bg-gray-100"
+                        >
+                          {size}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+
             {/* Sticky Add to Cart Button */}
             <div className="sticky bottom-0 left-0 right-0 bg-white border-t p-4">
               {productDetails?.totalStock === 0 ? (
@@ -263,8 +328,9 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                 <Button
                   className="w-full h-12 text-base"
                   onClick={() => handleAddToCart(productDetails?._id, productDetails?.totalStock)}
+                  disabled={!selectedSize}
                 >
-                  Add to Cart
+                  {!user ? "Login to Add to Cart" : !selectedSize ? "Select Size" : "Add to Cart"}
                 </Button>
               )}
             </div>

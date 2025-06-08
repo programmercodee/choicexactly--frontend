@@ -17,7 +17,6 @@ import {
   getOrderDetails,
   resetOrderDetails,
 } from "@/store/shop/order-slice";
-import { Badge } from "../ui/badge";
 
 const styles = `
   @keyframes fadeIn {

@@ -8,7 +8,7 @@ import emptycart from '../../assets/emptycart.png'
 function UserCartWrapper({ cartItems, setOpenCartSheet }) {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  // console.log(isAuthenticated)
+
 
   const totalCartAmount =
     cartItems && cartItems.length > 0
@@ -62,6 +62,7 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
             <div className="space-y-6 py-4">
               <div className="relative">
                 <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-blue-50 to-transparent z-10"></div>
+
                 <div className="space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar px-2 pt-8">
                   {cartItems && cartItems.length > 0
                     ? cartItems.map((item, index) => (
@@ -71,6 +72,7 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
                         style={{ animationDelay: `${index * 100}ms` }}
                       >
                         <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-12 bg-blue-200 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
                         <UserCartItemsContent cartItem={item} />
                         {index < cartItems.length - 1 && (
                           <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent my-4"></div>

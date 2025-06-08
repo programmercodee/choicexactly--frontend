@@ -25,7 +25,7 @@ function UserCartItemsContent({ cartItem }) {
         );
         const getTotalStock = productList[getCurrentProductIndex].totalStock;
 
-        console.log(getCurrentProductIndex, getTotalStock, "getTotalStock");
+
 
         if (indexOfCurrentCartItem > -1) {
           const getQuantity = getCartItems[indexOfCurrentCartItem].quantity;
@@ -45,6 +45,7 @@ function UserCartItemsContent({ cartItem }) {
       updateCartQuantity({
         userId: user?.id,
         productId: getCartItem?.productId,
+        size: getCartItem?.size,
         quantity:
           typeOfAction === "plus"
             ? getCartItem?.quantity + 1
@@ -78,7 +79,11 @@ function UserCartItemsContent({ cartItem }) {
         alt={cartItem?.title}
         className="w-20 h-20 rounded object-cover"
       />
+      {/* {
+        console.log(cartItem.availableSizes,"cartItemcartItemcartItem")
+      } */}
       <div className="flex-1">
+        <span className="text-sm  ">Size: {cartItem?.availableSizes}</span>
         <h3 className="font-extrabold">{cartItem?.title}</h3>
         <div className="flex items-center gap-2 mt-1">
           <Button
