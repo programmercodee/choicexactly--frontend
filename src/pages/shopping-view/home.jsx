@@ -16,6 +16,11 @@ import {
   UmbrellaIcon,
   WashingMachine,
   WatchIcon,
+  X,
+  Maximize2,
+  ChevronDown,
+  ChevronUp,
+  XCircle,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -48,130 +53,22 @@ const categoriesWithIcon = [
 //   { id: "h&m", label: "H&M", icon: Heater },
 // ];
 
-// Updated animation styles with enhanced floating t-shirts
+// Updated animation styles with reduced floating t-shirts
 const styles = `
-  .product-card {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease-out;
+  /* Very slow and gentle floating movement */
+  @keyframes gentleFloat {
+    0% { transform: translateY(0); }
+    25% { transform: translateY(-2px); }
+    50% { transform: translateY(-2px); }
+    75% { transform: translateY(0); }
+    100% { transform: translateY(0); }
   }
 
-  .product-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .product-card:hover {
-    transform: translateY(-4px);
-  }
-
-  /* Category section with enhanced floating t-shirts */
-  .category-section {
-    position: relative;
-    background: #f0f9ff;
-    overflow: hidden;
-  }
-
-  .floating-tshirt {
-    position: absolute;
-    font-size: 40px;
-    opacity: 0.15;
-    pointer-events: none;
-    animation: float 12s ease-in-out infinite;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .floating-tshirt:nth-child(1) {
-    top: 5%;
-    left: 5%;
-    font-size: 48px;
-    animation-delay: 0s;
-  }
-
-  .floating-tshirt:nth-child(2) {
-    top: 15%;
-    right: 8%;
-    font-size: 56px;
-    animation-delay: -2s;
-  }
-
-  .floating-tshirt:nth-child(3) {
-    bottom: 10%;
-    left: 12%;
-    font-size: 44px;
-    animation-delay: -4s;
-  }
-
-  .floating-tshirt:nth-child(4) {
-    bottom: 20%;
-    right: 15%;
-    font-size: 52px;
-    animation-delay: -6s;
-  }
-
-  .floating-tshirt:nth-child(5) {
-    top: 45%;
-    left: 25%;
-    font-size: 60px;
-    animation-delay: -8s;
-  }
-
-  .floating-tshirt:nth-child(6) {
-    top: 25%;
-    right: 25%;
-    font-size: 48px;
-    animation-delay: -10s;
-  }
-
-  .floating-tshirt:nth-child(7) {
-    top: 35%;
-    left: 8%;
-    font-size: 44px;
-    animation-delay: -3s;
-  }
-
-  .floating-tshirt:nth-child(8) {
-    bottom: 30%;
-    right: 8%;
-    font-size: 52px;
-    animation-delay: -5s;
-  }
-
-  @keyframes float {
-    0% {
-      transform: translateY(0) rotate(0deg) scale(1);
-    }
-    25% {
-      transform: translateY(-25px) rotate(8deg) scale(1.1);
-    }
-    50% {
-      transform: translateY(0) rotate(0deg) scale(1);
-    }
-    75% {
-      transform: translateY(25px) rotate(-8deg) scale(0.9);
-    }
-    100% {
-      transform: translateY(0) rotate(0deg) scale(1);
-    }
-  }
-
-  .category-card {
-    background: rgba(255, 255, 255, 0.95);
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 1;
-    backdrop-filter: blur(5px);
-  }
-
-  .category-card:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  }
-
-  .category-content {
-    position: relative;
-    z-index: 1;
+  /* Animated gradient background */
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 `;
 
@@ -189,6 +86,8 @@ function ShoppingHome() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const [isVideoMinimized, setIsVideoMinimized] = useState(false);
 
   function handleNavigateToListingPage(getCurrentItem, section) {
     sessionStorage.removeItem("filters");
@@ -314,32 +213,53 @@ function ShoppingHome() {
           </Button>
         </div>
 
-        <section className="py-12 category-section">
-          <div className="floating-tshirt">👕</div>
-          <div className="floating-tshirt">👕</div>
-          <div className="floating-tshirt">👕</div>
-          <div className="floating-tshirt">👕</div>
-          <div className="floating-tshirt">👕</div>
-          <div className="floating-tshirt">👕</div>
-          <div className="floating-tshirt">👕</div>
-          <div className="floating-tshirt">👕</div>
+        <section className="relative py-16 overflow-hidden">
+          {/* Animated background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 
+            animate-[gradientShift_15s_ease_infinite] bg-[length:200%_200%] opacity-50"></div>
 
-          <div className="container mx-auto px-4 category-content">
-            <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
-              Shop by category
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {/* Animated dots pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, #4f46e5 1px, transparent 0)`,
+              backgroundSize: '40px 40px'
+            }}></div>
+          </div>
+
+          <div className="container mx-auto px-4 relative z-10">
+            {/* Section header with enhanced styling */}
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4 bg-clip-text text-transparent 
+                bg-gradient-to-r from-blue-600 to-indigo-600">
+                Shop by Category
+              </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                Discover our curated collection of premium t-shirts, designed for comfort and style
+              </p>
+            </div>
+
+            {/* Category grid with enhanced cards */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
               {categoriesWithIcon.map((categoryItem) => (
                 <Card
                   key={categoryItem.id}
-                  onClick={() =>
-                    handleNavigateToListingPage(categoryItem, "category")
-                  }
-                  className="category-card cursor-pointer"
+                  onClick={() => handleNavigateToListingPage(categoryItem, "category")}
+                  className="group cursor-pointer transform transition-all duration-300 
+                    hover:scale-105 hover:shadow-xl bg-white/80 backdrop-blur-sm
+                    border border-gray-100 hover:border-indigo-200"
                 >
-                  <CardContent className="flex flex-col items-center justify-center p-6">
-                    <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
-                    <span className="font-bold text-gray-700">{categoryItem.label}</span>
+                  <CardContent className="flex flex-col items-center justify-center p-6 
+                    space-y-4 transition-colors duration-300">
+                    <div className="p-3 rounded-full bg-gradient-to-br from-blue-50 to-indigo-50 
+                      group-hover:from-blue-100 group-hover:to-indigo-100 
+                      transition-colors duration-300">
+                      <categoryItem.icon className="w-8 h-8 text-indigo-600 
+                        group-hover:text-indigo-700 transition-colors duration-300" />
+                    </div>
+                    <span className="font-semibold text-gray-700 group-hover:text-indigo-700 
+                      transition-colors duration-300">
+                      {categoryItem.label}
+                    </span>
                   </CardContent>
                 </Card>
               ))}
@@ -347,10 +267,90 @@ function ShoppingHome() {
           </div>
         </section>
 
+        <section className="py-8 relative overflow-hidden">
+          <div className="container mx-auto px-4">
+            <div className="max-w-[300px] mx-auto">
+              <div
+                className={`fixed bottom-5 right-5 z-50 transition-all duration-300 ease-in-out
+                  ${isVideoMinimized
+                    ? 'translate-y-[calc(100%-40px)]'
+                    : 'animate-[gentleFloat_8s_ease-in-out_infinite]'
+                  }`}
+              >
+                {/* Minimized State Button */}
+                {isVideoMinimized && (
+                  <button
+                    onClick={() => setIsVideoMinimized(false)}
+                    className="fixed bottom-5 right-5 w-10 h-10 rounded-full bg-white shadow-md 
+                      hover:shadow-lg hover:scale-110 transition-all duration-300 
+                      flex items-center justify-center cursor-pointer"
+                    title="Open Video"
+                  >
+                    <ChevronUp className="w-5 h-5 text-gray-600" />
+                  </button>
+                )}
+
+                {/* Video Content */}
+                <div className={`relative w-[200px] h-[350px] rounded-xl overflow-hidden shadow-lg bg-white
+                  ${isVideoMinimized ? 'hidden' : 'block'}`}
+                >
+                  {/* Close Button - Only shown when video is open */}
+                  {!isVideoMinimized && (
+                    <button
+                      onClick={() => setIsVideoMinimized(true)}
+                      className="absolute top-2 right-2 z-10 w-8 h-8 
+                        flex items-center justify-center rounded-full 
+                        bg-white/90 hover:bg-white shadow-md 
+                        transition-all duration-300 hover:scale-110 
+                        border border-gray-100"
+                      title="Close Video"
+                    >
+                      <XCircle className="w-5 h-5 text-red-500" />
+                    </button>
+                  )}
+
+                  <video
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    onEnded={(e) => {
+                      e.target.currentTime = 0;
+                      e.target.play();
+                    }}
+                  >
+                    <source
+                      src="https://res.cloudinary.com/defazdfkp/video/upload/v1749451526/ihlnoxsvn5hnf3hb4zwe.mp4"
+                      type="video/mp4"
+                    />
+                    Your browser does not support the video tag.
+                  </video>
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent 
+                    flex items-end"
+                  >
+                    <div className="w-full p-3 text-white text-center">
+                      <h2 className="text-base font-semibold mb-1">New Collection</h2>
+                      <p className="text-xs mb-2 opacity-90">Swipe to explore more</p>
+                      <button className="px-3 py-1.5 text-xs font-medium 
+                        bg-white text-gray-900 rounded-md 
+                        hover:bg-gray-100 transition-colors duration-200"
+                      >
+                        Shop Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8">
-              Feature Products
+              Trending Tees Collection
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {productList && productList.length > 0
