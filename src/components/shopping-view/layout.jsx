@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import ShoppingHeader from "./header";
 
 function ShoppingLayout() {
@@ -51,16 +51,16 @@ function ShoppingLayout() {
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Quick Links</h3>
               <ul className="space-y-3">
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">
+                  <Link to="/shop/listing" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">
                     <span className="w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     Shop All
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">
+                  <Link to="/shop/listing?category=newarrivals" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">
                     <span className="w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     New Arrivals
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">
@@ -82,10 +82,10 @@ function ShoppingLayout() {
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">Company</h3>
               <ul className="space-y-3">
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">
+                  <Link to="/shop/aboutus" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">
                     <span className="w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     About Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">
@@ -94,10 +94,10 @@ function ShoppingLayout() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">
+                  <Link to="/shop/contectus" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">
                     <span className="w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     Contact Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a href="#" className="text-gray-600 hover:text-blue-400 transition-colors flex items-center gap-2 group">

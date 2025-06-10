@@ -286,6 +286,7 @@ function ShoppingHome() {
           </div>
         </section>
 
+        {/* video sections  */}
         <section className="py-8 relative overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="max-w-[300px] mx-auto">
@@ -366,6 +367,64 @@ function ShoppingHome() {
           </div>
         </section>
 
+        {/* New arrivals  */}
+        <section className="py-12">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-2">
+              Unbox the Latest Style
+            </h2>
+            <p className="text-center text-gray-600 text-base mb-8">
+              Discover our newest arrivals — curated for trendsetters, made for comfort.
+            </p>
+
+
+            {(() => {
+              // filter only once
+              const filteredProducts = productList?.filter(
+                (product) => product.category?.toLowerCase() === "newarrivals"
+              );
+
+              // console.log("Filtered Products:", filteredProducts);
+
+              if (!productList) {
+                return (
+                  <div className="text-center text-gray-500 text-lg mt-10">
+                    Loading products...
+                  </div>
+                );
+              }
+
+              if (filteredProducts.length === 0) {
+                return (
+                  <div className="text-center text-gray-500 text-lg mt-10">
+                    Not available at this moment.
+                  </div>
+                );
+              }
+
+              return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {filteredProducts.map((productItem, index) => (
+                    <div
+                      key={productItem._id}
+                      className="product-card"
+                      style={{ transitionDelay: `${index * 0.1}s` }}
+                    >
+                      <ShoppingProductTile
+                        handleGetProductDetails={handleGetProductDetails}
+                        product={productItem}
+                        handleAddtoCart={handleAddtoCart}
+                      />
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+
+          </div>
+        </section>
+
+        {/* All tshirts  */}
         <section className="py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8">
@@ -375,10 +434,13 @@ function ShoppingHome() {
               {productList && productList.length > 0
                 ? productList.map((productItem, index) => (
                   <div
-                    key={productItem.id}
+                    key={productItem._id}
                     className="product-card"
                     style={{ transitionDelay: `${index * 0.1}s` }}
                   >
+                    {/* {
+                      console.log(productItem.category, "productItemproductItemproductItem")
+                    } */}
                     <ShoppingProductTile
                       handleGetProductDetails={handleGetProductDetails}
                       product={productItem}

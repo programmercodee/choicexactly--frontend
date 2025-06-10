@@ -316,6 +316,7 @@ function MenuItems() {
           <div
             className={`absolute left-0 z-10 mt-2 w-56 origin-top-right dropdown-menu transition-all duration-200 ${openCollections ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}`}
           >
+            
             <div className="py-1">
               {shoppingViewHeaderMenuItems.map((menuItem) => (
                 <Label

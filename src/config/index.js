@@ -58,11 +58,14 @@ export const addProductFormElements = [
     name: "category",
     componentType: "select",
     options: [
+      { id: "newarrivals", label: "New Arrivals" },
       { id: "roundneck", label: "Round neck" },
       { id: "polo", label: "Polo" },
       { id: "vneck", label: "V neck" },
       { id: "plain", label: "Plain" },
       { id: "printed", label: "Printed" },
+      { id: "oversized_tshirts", label: "Oversized T-Shirts" },
+      { id: "shirts", label: "Shirts" },
     ],
   },
   // {
@@ -108,40 +111,31 @@ export const shoppingViewHeaderMenuItems = [
     path: "/shop/home",
   },
   {
-    id: "products",
-    label: "Products",
+    id: "newarrivals",
+    label: "New Arrivals",
     path: "/shop/listing",
   },
   {
-    id: "roundneck",
-    label: "Round neck",
+    id: "oversized_tshirts",
+    label: "Oversized T-Shirts",
     path: "/shop/listing",
   },
   {
-    id: "polo",
-    label: "Polo",
+    id: "",
+    label: "T-Shirts",
     path: "/shop/listing",
   },
   {
-    id: "vneck",
-    label: "V neck",
+    id: "shirts",
+    label: "Shirts",
     path: "/shop/listing",
   },
   {
-    id: "plain",
-    label: "Plain",
+    id: "",
+    label: "Shop All",
     path: "/shop/listing",
   },
-  {
-    id: "printed",
-    label: "Printed",
-    path: "/shop/listing",
-  },
-  {
-    id: "search",
-    label: "Search",
-    path: "/shop/search",
-  },
+
 ];
 
 export const shoppingViewHeaderMenuItems2 = [
@@ -154,6 +148,11 @@ export const shoppingViewHeaderMenuItems2 = [
     id: "ordertrack",
     label: "Track Your Order",
     path: "/shop/account",
+  },
+  {
+    id: "search",
+    label: "Search",
+    path: "/shop/search",
   },
   {
     id: "contectus",
@@ -193,6 +192,8 @@ export const filterOptions = {
     { id: "vneck", label: "V neck" },
     { id: "plain", label: "Plain" },
     { id: "printed", label: "Printed" },
+    { id: "oversized_tshirts", label: "Oversized T-Shirts" },
+    { id: "shirts", label: "Shirts" },
   ],
   // brand: [
   //   { id: "nike", label: "Nike" },

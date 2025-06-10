@@ -143,6 +143,9 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
     <Dialog open={open} onOpenChange={handleDialogClose}>
       <DialogContent className="max-w-4xl p-0 overflow-hidden bg-white rounded-lg">
         {/* Header with close button */}
+        {/* {
+          console.log(productDetails?._id,"productDetailsproductDetailsproductDetails")
+        } */}
         <div className="absolute right-4 top-4 z-10">
           <Button
             variant="ghost"
@@ -201,6 +204,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                 <p className="text-sm text-muted-foreground">
                   {productDetails?.totalStock > 0 ? `${productDetails?.totalStock} items in stock` : "Out of stock"}
                 </p>
+                
               </div>
 
               {/* Description */}
