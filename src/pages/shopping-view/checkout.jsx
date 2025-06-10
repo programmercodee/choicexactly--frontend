@@ -210,7 +210,7 @@ function ShoppingCheckout() {
       : 0;
 
   useEffect(() => {
-    if (approvalURL && selectedPaymentMethod === "paypal") {
+    if (approvalURL && selectedPaymentMethod === "razorpay") {
       window.location.href = approvalURL;
     }
   }, [approvalURL, selectedPaymentMethod]);
@@ -271,6 +271,7 @@ function ShoppingCheckout() {
   };
 
   const handleRazorpayPayment = async () => {
+
     setSelectedPaymentMethod("razorpay");
     dispatch(resetApprovalURL());
     if (!cartItems?.items?.length) {
@@ -286,6 +287,13 @@ function ShoppingCheckout() {
         variant: "destructive",
       });
     }
+
+    toast({
+      title: "Please wait...",
+      description: "Initializing payment. Do not refresh or close the tab.",
+      variant: "success",
+    });
+    
 
     const orderData = {
       userId: user?.id,
@@ -373,7 +381,7 @@ function ShoppingCheckout() {
             .then((data) => {
               if (data.success) {
                 toast({ title: "Order placed successfully!", variant: "success" });
-                navigate("/shop/home");
+                navigate("/shop/account");
               } else {
                 toast({ title: "Payment succeeded but order saving failed", variant: "destructive" });
               }

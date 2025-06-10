@@ -174,14 +174,16 @@ function ShoppingHome() {
     <>
       <style>{styles}</style>
       <div className="flex flex-col min-h-screen">
-        <div className="relative w-full h-[600px] overflow-hidden">
+        <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
           {featureImageList && featureImageList.length > 0
             ? featureImageList.map((slide, index) => (
               <img
                 key={index}
                 src={slide?.image}
                 className={`${index === currentSlide ? "opacity-100" : "opacity-0"
-                  } absolute top-0 left-0 w-full p-10 h-full object-cover transition-opacity duration-1000`}
+                  } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000
+                  p-4 sm:p-6 md:p-8 lg:p-10`}
+                alt={`Banner slide ${index + 1}`}
               />
             ))
             : null}
@@ -195,9 +197,11 @@ function ShoppingHome() {
                   featureImageList.length
               )
             }
-            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80"
+            className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 
+              bg-white/80 hover:bg-white/90 transition-colors duration-200
+              w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"
           >
-            <ChevronLeftIcon className="w-4 h-4" />
+            <ChevronLeftIcon className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" />
           </Button>
           <Button
             variant="outline"
@@ -207,10 +211,25 @@ function ShoppingHome() {
                 (prevSlide) => (prevSlide + 1) % featureImageList.length
               )
             }
-            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
+            className="absolute top-1/2 right-2 sm:right-4 transform -translate-y-1/2 
+              bg-white/80 hover:bg-white/90 transition-colors duration-200
+              w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"
           >
-            <ChevronRightIcon className="w-4 h-4" />
+            <ChevronRightIcon className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" />
           </Button>
+
+          {/* Optional: Add slide indicators for better UX */}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            {featureImageList.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 
+                  ${index === currentSlide ? 'bg-white scale-125' : 'bg-white/50'}`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         <section className="relative py-16 overflow-hidden">

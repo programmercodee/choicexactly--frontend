@@ -25,23 +25,91 @@ import SearchProducts from "./pages/shopping-view/search";
 import AboutUs from "./components/shopping-view/aboutus";
 import ContactUs from "./components/shopping-view/contectus";
 
+// Create a detailed loading skeleton component
+const LoadingSkeleton = () => {
+  return (
+    <div className="flex flex-col min-h-screen bg-white">
+      {/* Banner Skeleton */}
+      <div className="relative w-full h-[600px] bg-gray-100">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Skeleton className="w-full h-full" />
+        </div>
+      </div>
+
+      {/* Categories Section Skeleton */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          {/* Section Header Skeleton */}
+          <div className="text-center mb-12">
+            <Skeleton className="h-8 w-64 mx-auto mb-4" />
+            <Skeleton className="h-4 w-96 mx-auto" />
+          </div>
+
+          {/* Category Grid Skeleton */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {[...Array(5)].map((_, index) => (
+              <div key={index} className="flex flex-col items-center space-y-4">
+                <Skeleton className="h-24 w-24 rounded-full" />
+                <Skeleton className="h-4 w-20" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Products Section Skeleton */}
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          {/* Section Header Skeleton */}
+          <div className="text-center mb-8">
+            <Skeleton className="h-8 w-48 mx-auto mb-4" />
+          </div>
+
+          {/* Products Grid Skeleton */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, index) => (
+              <div key={index} className="space-y-4">
+                <Skeleton className="aspect-square w-full rounded-lg" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <div className="flex justify-between items-center">
+                    <Skeleton className="h-6 w-20" />
+                    <Skeleton className="h-8 w-24 rounded-md" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Video Section Skeleton */}
+      <section className="py-8">
+        <div className="container mx-auto px-4">
+          <div className="max-w-[300px] mx-auto">
+            <Skeleton className="w-[200px] h-[350px] rounded-xl" />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector(
     (state) => state.auth
   );
 
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkAuth()).then((res)=>{
+    dispatch(checkAuth()).then((res) => {
       // console.log(res.payload.success)
-    })
-  }, [dispatch ]);
+    });
+  }, [dispatch]);
 
-  if (isLoading) return <Skeleton className="w-[800] bg-black h-[600px]" />;
-
-  // console.log(isLoading, user);
+  if (isLoading) return <LoadingSkeleton />;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
@@ -83,7 +151,7 @@ function App() {
           path="/shop"
           element={
             <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <ShoppingLayout/>
+              <ShoppingLayout />
             </CheckAuth>
           }
         >

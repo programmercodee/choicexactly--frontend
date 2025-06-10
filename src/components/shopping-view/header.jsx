@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
 import logo from '../../assets/logo1.png'
+import { useToast } from "@/components/ui/use-toast";
 
 const styles = `
   @keyframes gradientShift {
@@ -353,9 +354,17 @@ function HeaderRightContent() {
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { toast } = useToast();
   const handleLogout = () => {
+    navigate("/auth/login")
     dispatch(logoutUser());
+
+    toast({
+      title: "Logged out successfully",
+      description: "You’ve been logged out. Hope to see you again soon!",
+      variant: "success",
+    });
+
   };
   useEffect(() => {
     dispatch(fetchCartItems(user?.id));
